@@ -480,7 +480,16 @@ export function Registro() {
               <CheckCircle2 className="w-3.5 h-3.5 text-white absolute opacity-0 peer-checked:opacity-100 transition-opacity" />
             </div>
             <span className="text-sm text-text-muted group-hover:text-white transition-colors">
-              Declaro que toda la información brindada es verídica y <strong className="text-white">acepto el reglamento y las condiciones</strong> del Torneo STEAM LUVÁ 2026. *
+              Declaro que toda la información brindada es verídica y acepto el{" "}
+              <a
+                href="/reglamentos/guia-oficial-participacion.pdf"
+                target="_blank"
+                rel="noreferrer"
+                className="text-cyan hover:text-white underline underline-offset-4"
+              >
+                reglamento y las condiciones
+              </a>{" "}
+              del Torneo STEAM LUVÁ 2026. *
             </span>
           </label>
           {errors.terminos && <span className="text-red-500 text-xs mt-2 block">Debés aceptar los términos</span>}

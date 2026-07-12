@@ -244,6 +244,15 @@ export function Landing() {
             <p className="text-text-muted text-lg max-w-2xl mx-auto">
               Encuentra el reto perfecto para tu equipo, desde robótica básica hasta desarrollo de software e investigación.
             </p>
+            <a
+              href="/reglamentos/guia-oficial-participacion.pdf"
+              target="_blank"
+              rel="noreferrer"
+              className="mt-6 inline-flex items-center justify-center gap-2 bg-surface hover:bg-surface-hover border border-border text-white px-6 py-3 rounded-full font-bold transition-colors"
+            >
+              <Download className="w-4 h-4" />
+              Ver guía oficial de participación
+            </a>
           </div>
 
           <Tabs defaultValue="robomatrix" className="w-full">
