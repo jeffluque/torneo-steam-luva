@@ -39,6 +39,7 @@ type FilePayload = {
 
 const MAX_PAYMENT_FILE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_PAYMENT_FILE_TYPES = ["application/pdf", "image/jpeg", "image/png", "image/webp"];
+const ALLOWED_PAYMENT_FILE_EXTENSIONS = [".pdf", ".jpg", ".jpeg", ".png", ".webp"];
 
 function formatFileSize(bytes: number) {
   if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
@@ -63,6 +64,12 @@ function fileToPayload(file: File): Promise<FilePayload> {
     reader.onerror = () => reject(new Error("No se pudo leer el comprobante."));
     reader.readAsDataURL(file);
   });
+}
+
+function isAllowedPaymentFile(file: File) {
+  const lowerName = file.name.toLowerCase();
+  return ALLOWED_PAYMENT_FILE_TYPES.includes(file.type) ||
+    ALLOWED_PAYMENT_FILE_EXTENSIONS.some((extension) => lowerName.endsWith(extension));
 }
 
 export function Registro() {
@@ -97,7 +104,7 @@ export function Registro() {
         return;
       }
 
-      if (!ALLOWED_PAYMENT_FILE_TYPES.includes(paymentFile.type)) {
+      if (!isAllowedPaymentFile(paymentFile)) {
         setSubmitError("El comprobante debe ser PDF, JPG, PNG o WebP.");
         return;
       }

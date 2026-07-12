@@ -2,6 +2,7 @@ const SHEET_NAME = 'Inscripciones';
 const PAYMENT_FOLDER_NAME = 'Comprobantes Torneo STEAM LUVÁ 2026';
 const MAX_PAYMENT_FILE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_PAYMENT_MIME_TYPES = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
+const ALLOWED_PAYMENT_EXTENSIONS = ['.pdf', '.jpg', '.jpeg', '.png', '.webp'];
 const SHARE_PAYMENT_RECEIPTS_WITH_LINK = true;
 const REGISTRATION_HEADERS = [
   'Fecha',
@@ -60,16 +61,11 @@ function doPost(e) {
       students,
       data.observaciones || '',
       paymentFile.getName(),
-      'Ver comprobante'
+      paymentUrl
     ]);
 
     const lastRow = sheet.getLastRow();
-    sheet.getRange(lastRow, 19).setRichTextValue(
-      SpreadsheetApp.newRichTextValue()
-        .setText('Ver comprobante')
-        .setLinkUrl(paymentUrl)
-        .build()
-    );
+    formatPaymentLink(sheet, lastRow, paymentUrl);
 
     sendConfirmationEmail(data, registrationId);
     return jsonResponse({ ok: true, registrationId: registrationId });
@@ -96,6 +92,23 @@ function getRegistrationSheet() {
 function configurarHojaInscripciones() {
   getRegistrationSheet();
   getOrCreateFolder(PAYMENT_FOLDER_NAME);
+}
+
+function formatPaymentLink(sheet, row, paymentUrl) {
+  const paymentCell = sheet.getRange(row, 19);
+  paymentCell.setValue(paymentUrl);
+
+  try {
+    paymentCell.setRichTextValue(
+      SpreadsheetApp.newRichTextValue()
+        .setText('Ver comprobante')
+        .setLinkUrl(paymentUrl)
+        .build()
+    );
+  } catch (error) {
+    console.error('No se pudo aplicar el enlace enriquecido del comprobante:', error);
+    paymentCell.setValue(paymentUrl);
+  }
 }
 
 function ensureRegistrationHeaders(sheet) {
@@ -152,9 +165,19 @@ function validatePaymentReceipt(file) {
   if (!file || !file.base64) throw new Error('El comprobante de pago es requerido.');
   if (!file.name) throw new Error('El comprobante debe tener nombre de archivo.');
   if (Number(file.size || 0) > MAX_PAYMENT_FILE_SIZE) throw new Error('El comprobante no puede pesar más de 5 MB.');
-  if (ALLOWED_PAYMENT_MIME_TYPES.indexOf(file.type) === -1) {
+  if (!isAllowedPaymentReceipt(file)) {
     throw new Error('El comprobante debe ser PDF, JPG, PNG o WebP.');
   }
+}
+
+function isAllowedPaymentReceipt(file) {
+  const fileName = String(file.name || '').toLowerCase();
+  const fileType = String(file.type || '').toLowerCase();
+
+  return ALLOWED_PAYMENT_MIME_TYPES.indexOf(fileType) !== -1 ||
+    ALLOWED_PAYMENT_EXTENSIONS.some(function (extension) {
+      return fileName.endsWith(extension);
+    });
 }
 
 function savePaymentReceipt(file, registrationId, projectName) {
