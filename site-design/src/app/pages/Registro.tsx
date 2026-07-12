@@ -40,6 +40,11 @@ type FilePayload = {
 const MAX_PAYMENT_FILE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_PAYMENT_FILE_TYPES = ["application/pdf", "image/jpeg", "image/png", "image/webp"];
 
+function formatFileSize(bytes: number) {
+  if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
+}
+
 function fileToPayload(file: File): Promise<FilePayload> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -63,11 +68,12 @@ function fileToPayload(file: File): Promise<FilePayload> {
 export function Registro() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState("");
-  const { register, control, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormValues>({
+  const { register, control, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm<FormValues>({
     defaultValues: {
       integrantes: [{ nombre: "", edad: "", correo: "", genero: "" }]
     }
   });
+  const selectedPaymentFile = watch("comprobantePago")?.[0];
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -446,12 +452,26 @@ export function Registro() {
             <div className="border-2 border-dashed border-border rounded-xl p-8 text-center bg-background/50 hover:border-primary/60 transition-colors">
               <Upload className="w-8 h-8 text-text-muted mx-auto mb-3" />
               <p className="text-sm font-medium mb-3">Adjuntá el comprobante para confirmar la inscripción</p>
-              <input
-                type="file"
-                accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp"
-                {...register("comprobantePago", { required: true })}
-                className="mx-auto block max-w-full text-sm text-text-muted file:mr-4 file:rounded-full file:border-0 file:bg-primary file:px-4 file:py-2 file:font-semibold file:text-white hover:file:bg-primary-hover"
-              />
+              <label className="inline-flex cursor-pointer items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-hover">
+                Seleccionar archivo
+                <input
+                  type="file"
+                  accept=".pdf,.jpg,.jpeg,.png,.webp,application/pdf,image/jpeg,image/png,image/webp"
+                  {...register("comprobantePago", { required: true })}
+                  className="sr-only"
+                />
+              </label>
+              {selectedPaymentFile ? (
+                <div className="mx-auto mt-4 flex max-w-xl items-center gap-3 rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-3 text-left">
+                  <CheckCircle2 className="h-5 w-5 shrink-0 text-emerald-400" />
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-white">{selectedPaymentFile.name}</p>
+                    <p className="text-xs text-emerald-200">Archivo agregado · {formatFileSize(selectedPaymentFile.size)}</p>
+                  </div>
+                </div>
+              ) : (
+                <p className="mt-4 text-xs text-amber-200">Aún no has seleccionado ningún archivo.</p>
+              )}
               <p className="text-xs text-text-muted mt-3">Formatos permitidos: PDF, JPG, PNG o WebP. Tamaño máximo: 5 MB.</p>
             </div>
             {errors.comprobantePago && <span className="text-red-500 text-xs mt-2 block">El comprobante es requerido</span>}

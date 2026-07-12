@@ -2,6 +2,7 @@ const SHEET_NAME = 'Inscripciones';
 const PAYMENT_FOLDER_NAME = 'Comprobantes Torneo STEAM LUVÁ 2026';
 const MAX_PAYMENT_FILE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_PAYMENT_MIME_TYPES = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
+const SHARE_PAYMENT_RECEIPTS_WITH_LINK = true;
 const REGISTRATION_HEADERS = [
   'Fecha',
   'ID',
@@ -34,6 +35,7 @@ function doPost(e) {
 
     const registrationId = Utilities.getUuid();
     const paymentFile = savePaymentReceipt(data.comprobantePago, registrationId, data.nombreProyecto);
+    const paymentUrl = paymentFile.getUrl();
     const sheet = getRegistrationSheet();
     const students = data.integrantes.map(function (student, index) {
       return `${index + 1}. ${student.nombre} | ${student.edad} años | ${student.correo} | ${student.genero}`;
@@ -58,8 +60,16 @@ function doPost(e) {
       students,
       data.observaciones || '',
       paymentFile.getName(),
-      paymentFile.getUrl()
+      'Ver comprobante'
     ]);
+
+    const lastRow = sheet.getLastRow();
+    sheet.getRange(lastRow, 19).setRichTextValue(
+      SpreadsheetApp.newRichTextValue()
+        .setText('Ver comprobante')
+        .setLinkUrl(paymentUrl)
+        .build()
+    );
 
     sendConfirmationEmail(data, registrationId);
     return jsonResponse({ ok: true, registrationId: registrationId });
@@ -150,7 +160,13 @@ function savePaymentReceipt(file, registrationId, projectName) {
   const fileName = `${registrationId}-${safeProjectName}${extension}`;
   const blob = Utilities.newBlob(bytes, file.type, fileName);
 
-  return folder.createFile(blob);
+  const savedFile = folder.createFile(blob);
+
+  if (SHARE_PAYMENT_RECEIPTS_WITH_LINK) {
+    savedFile.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+  }
+
+  return savedFile;
 }
 
 function getOrCreateFolder(folderName) {

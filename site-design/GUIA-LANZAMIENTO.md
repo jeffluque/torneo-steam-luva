@@ -19,6 +19,8 @@ Notas importantes:
 - Apps Script y Gmail tienen cuotas diarias; son suficientes para un torneo pequeño o mediano, pero conviene vigilarlas durante el lanzamiento.
 - Cada vez que se cambie `Code.gs`, hay que editar la implementación y publicar una versión nueva.
 - El comprobante de pago se recibe desde el formulario, se guarda en Drive en la carpeta `Comprobantes Torneo STEAM LUVÁ 2026`, y la URL queda registrada en la hoja de cálculo.
+- En la hoja, la columna `URL comprobante` muestra un enlace clicable como `Ver comprobante`.
+- Los comprobantes quedan configurados como visibles para cualquier persona que tenga el enlace. Compartir la hoja solo con el equipo organizador.
 - El formulario acepta comprobantes en PDF, JPG, PNG o WebP, con tamaño máximo de 5 MB.
 
 ## 2. Agregar reglamentos
