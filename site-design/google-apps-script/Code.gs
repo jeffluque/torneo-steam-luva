@@ -93,6 +93,11 @@ function getRegistrationSheet() {
   return sheet;
 }
 
+function configurarHojaInscripciones() {
+  getRegistrationSheet();
+  getOrCreateFolder(PAYMENT_FOLDER_NAME);
+}
+
 function ensureRegistrationHeaders(sheet) {
   const firstRow = sheet.getRange(1, 1, 1, REGISTRATION_HEADERS.length).getValues()[0];
   const needsHeaders = REGISTRATION_HEADERS.some(function (header, index) {
