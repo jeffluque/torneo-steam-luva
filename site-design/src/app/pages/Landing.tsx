@@ -12,7 +12,7 @@ import akamaiNewLogo from "../../imports/image__4_.png";
 import alternateLogo from "../../imports/image.png";
 import cedesLogo from "../../imports/logocedes.png";
 import robomatrixLogo from "../../imports/logo_rm.png";
-import infomatrixLogo from "../../imports/Infomatrix_CostaRica2025__2_.png";
+import infomatrixLogoWhite from "../../imports/infomatrix-logo-white.png";
 
 export function Landing() {
   return (
@@ -255,7 +255,7 @@ export function Landing() {
                 </TabsTrigger>
                 <TabsTrigger value="infomatrix" className="rounded-xl px-8 py-3 text-lg font-bold data-[state=active]:bg-accent data-[state=active]:text-white flex items-center gap-3">
                   Infomatrix
-                  <ImageWithFallback src={infomatrixLogo} alt="Infomatrix" className="h-8 object-contain rounded-md" />
+                  <ImageWithFallback src={infomatrixLogoWhite} alt="Infomatrix" className="h-8 object-contain rounded-md" />
                 </TabsTrigger>
               </TabsList>
             </div>

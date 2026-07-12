@@ -9,7 +9,7 @@
 5. Configurar:
    - **Ejecutar como:** Yo.
    - **Quién tiene acceso:** Cualquier persona.
-6. Pulsar **Implementar**, autorizar el acceso a Sheets y al envío de correo, y copiar la URL terminada en `/exec`.
+6. Pulsar **Implementar**, autorizar el acceso a Sheets, Drive y al envío de correo, y copiar la URL terminada en `/exec`.
 7. En la raíz del sitio, copiar `.env.example` como `.env` y sustituir la URL de ejemplo por la URL `/exec`.
 8. Ejecutar una inscripción de prueba. Debe aparecer una fila en la pestaña `Inscripciones` y llegar un correo al correo del asesor.
 
@@ -18,7 +18,8 @@ Notas importantes:
 - La hoja y los correos quedan bajo la cuenta de Google que publica el script.
 - Apps Script y Gmail tienen cuotas diarias; son suficientes para un torneo pequeño o mediano, pero conviene vigilarlas durante el lanzamiento.
 - Cada vez que se cambie `Code.gs`, hay que editar la implementación y publicar una versión nueva.
-- El cuadro visual de “subir comprobante” todavía no adjunta archivos. No debe anunciarse como activo hasta decidir si se habilitará carga a Drive; pedir archivos públicos requiere controles adicionales contra abuso.
+- El comprobante de pago se recibe desde el formulario, se guarda en Drive en la carpeta `Comprobantes Torneo STEAM LUVÁ 2026`, y la URL queda registrada en la hoja de cálculo.
+- El formulario acepta comprobantes en PDF, JPG, PNG o WebP, con tamaño máximo de 5 MB.
 
 ## 2. Agregar reglamentos
 
