@@ -19,6 +19,13 @@ import roboticaConcentracion from "../../imports/fotos/robotica-concentracion.we
 import roboticaNinoCarro from "../../imports/fotos/robotica-nino-carro.webp";
 import competenciaRobotica from "../../imports/fotos/competencia-robotica.webp";
 import robotOmni from "../../imports/fotos/robot-omni.webp";
+import seguidorLinea2025 from "../../imports/fotos/seguidor-linea-2025.webp";
+import sumoLego2025 from "../../imports/fotos/sumo-lego-2025.webp";
+import laberinto2025 from "../../imports/fotos/laberinto-2025.webp";
+import electrotec2025 from "../../imports/fotos/electrotec-2025.webp";
+import retoRobotica2025 from "../../imports/fotos/reto-robotica-2025.webp";
+import tecnogameDesarrollo2025 from "../../imports/fotos/tecnogame-desarrollo-2025.webp";
+import divulgacionCientifica2025 from "../../imports/fotos/divulgacion-cientifica-2025.webp";
 
 export function Landing() {
   return (
@@ -281,31 +288,36 @@ export function Landing() {
                   {
                     name: "Seguidor de Línea",
                     desc: "Robot autónomo que sigue una pista en el menor tiempo posible.",
-                    img: roboticaNino,
+                    level: "Secundaria",
+                    img: seguidorLinea2025,
                     rules: "seguidor-de-linea.pdf"
                   },
                   {
                     name: "Sumo LEGO",
                     desc: "Robot diseñado para empujar a sus oponentes fuera del área de combate.",
-                    img: roboticaNinoCarro,
+                    level: "Secundaria",
+                    img: sumoLego2025,
                     rules: "sumo-lego.pdf"
                   },
                   {
                     name: "Laberinto",
                     desc: "Robot autónomo capaz de resolver un recorrido complejo mediante sensores.",
-                    img: roboticaConcentracion,
+                    level: "Secundaria",
+                    img: laberinto2025,
                     rules: "laberinto.pdf"
                   },
                   {
                     name: "Electrotec",
                     desc: "Basada en el uso de robots DIYGO IA para resolver retos tecnológicos.",
-                    img: competenciaRobotica,
+                    level: "Secundaria",
+                    img: electrotec2025,
                     rules: "electrotec.pdf"
                   },
                   {
                     name: "Reto de Robótica",
                     desc: "Los equipos resuelven un desafío sorpresa de robótica el mismo día del evento.",
-                    img: robotOmni,
+                    level: "Primaria",
+                    img: retoRobotica2025,
                     rules: "reto-de-robotica.pdf"
                   }
                 ].map((cat, i) => (
@@ -317,7 +329,7 @@ export function Landing() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute top-4 left-4 bg-background/80 backdrop-blur text-xs font-bold px-3 py-1 rounded-full border border-border">
-                        Reglas generales
+                        {cat.level}
                       </div>
                     </div>
                     <div className="p-5 flex-1 flex flex-col">
@@ -345,20 +357,23 @@ export function Landing() {
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
                 {[
                   {
-                    name: "Tecnogame & Desarrollo",
+                    name: "Tecnogame y Desarrollo de Software",
                     desc: "Diseño y desarrollo de videojuegos y soluciones de software innovadoras.",
-                    img: "https://images.unsplash.com/photo-1612151388040-9ec75d2de8c7?auto=format&fit=crop&q=80&w=600",
+                    level: "Primaria-Universidad",
+                    img: tecnogameDesarrollo2025,
                     rules: "tecnogame-y-desarrollo.pdf"
                   },
                   {
                     name: "Divulgación Científica",
                     desc: "Presentación de investigaciones, prototipos e ideas científicas.",
-                    img: "https://images.unsplash.com/photo-1554475901-4538ddfbccc2?auto=format&fit=crop&q=80&w=600",
+                    level: "Primaria-Universidad",
+                    img: divulgacionCientifica2025,
                     rules: "divulgacion-cientifica.pdf"
                   },
                   {
                     name: "Multimedia",
                     desc: "Creación de contenido digital, animación y producciones audiovisuales.",
+                    level: "Primaria - Universidad",
                     img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=600",
                     rules: "multimedia.pdf"
                   }
@@ -371,7 +386,7 @@ export function Landing() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute top-4 left-4 bg-background/80 backdrop-blur text-xs font-bold px-3 py-1 rounded-full border border-border">
-                        Reglas generales
+                        {cat.level}
                       </div>
                     </div>
                     <div className="p-6 flex-1 flex flex-col">

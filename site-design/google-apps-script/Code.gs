@@ -297,7 +297,7 @@ function getCategoryLabel(value) {
     laberinto: 'Laberinto',
     electrotec: 'Electrotec',
     'reto-robotica': 'Reto de Robótica',
-    tecnogame: 'Tecnogame & Desarrollo',
+    tecnogame: 'Tecnogame y Desarrollo de Software',
     divulgacion: 'Divulgación Científica',
     multimedia: 'Multimedia'
   };

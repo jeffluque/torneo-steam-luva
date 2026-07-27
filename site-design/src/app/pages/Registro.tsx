@@ -202,7 +202,7 @@ export function Registro() {
                   <option value="reto-robotica">Reto de Robótica</option>
                 </optgroup>
                 <optgroup label="Infomatrix">
-                  <option value="tecnogame">Tecnogame & Desarrollo</option>
+                  <option value="tecnogame">Tecnogame y Desarrollo de Software</option>
                   <option value="divulgacion">Divulgación Científica</option>
                   <option value="multimedia">Multimedia</option>
                 </optgroup>
