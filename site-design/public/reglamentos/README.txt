@@ -5,6 +5,7 @@ Botones principales de categorías:
 - sumo-lego.pdf
 - laberinto.pdf
 - electrotec.pdf
+- reto-de-robotica.pdf
 - tecnogame-y-desarrollo.pdf
 - divulgacion-cientifica.pdf
 - multimedia.pdf

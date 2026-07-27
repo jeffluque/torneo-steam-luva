@@ -199,6 +199,7 @@ export function Registro() {
                   <option value="sumo">Sumo LEGO</option>
                   <option value="laberinto">Laberinto</option>
                   <option value="electrotec">Electrotec</option>
+                  <option value="reto-robotica">Reto de Robótica</option>
                 </optgroup>
                 <optgroup label="Infomatrix">
                   <option value="tecnogame">Tecnogame & Desarrollo</option>

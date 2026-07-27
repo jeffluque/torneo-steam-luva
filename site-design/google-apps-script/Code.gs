@@ -296,6 +296,7 @@ function getCategoryLabel(value) {
     sumo: 'Sumo LEGO',
     laberinto: 'Laberinto',
     electrotec: 'Electrotec',
+    'reto-robotica': 'Reto de Robótica',
     tecnogame: 'Tecnogame & Desarrollo',
     divulgacion: 'Divulgación Científica',
     multimedia: 'Multimedia'

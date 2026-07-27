@@ -13,6 +13,12 @@ import alternateLogo from "../../imports/image.png";
 import cedesLogo from "../../imports/logocedes.png";
 import robomatrixLogo from "../../imports/logo_rm.png";
 import infomatrixLogoWhite from "../../imports/infomatrix-logo-white.png";
+import roboticaNino from "../../imports/fotos/robotica-nino.webp";
+import roboticaNinaProgramacion from "../../imports/fotos/robotica-nina-programacion.webp";
+import roboticaConcentracion from "../../imports/fotos/robotica-concentracion.webp";
+import roboticaNinoCarro from "../../imports/fotos/robotica-nino-carro.webp";
+import competenciaRobotica from "../../imports/fotos/competencia-robotica.webp";
+import robotOmni from "../../imports/fotos/robot-omni.webp";
 
 export function Landing() {
   return (
@@ -75,7 +81,7 @@ export function Landing() {
                 <div className="text-sm text-text-muted font-medium">Equipos</div>
               </div>
               <div>
-                <div className="text-3xl font-black text-white mb-1">7</div>
+                <div className="text-3xl font-black text-white mb-1">8</div>
                 <div className="text-sm text-text-muted font-medium">Categorías</div>
               </div>
               <div>
@@ -270,35 +276,37 @@ export function Landing() {
             </div>
 
             <TabsContent value="robomatrix" className="mt-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
                 {[
                   {
                     name: "Seguidor de Línea",
-                    level: "Primaria y Secundaria",
                     desc: "Robot autónomo que sigue una pista en el menor tiempo posible.",
-                    img: "https://images.unsplash.com/photo-1762500825366-ba34b0c5352e?auto=format&fit=crop&q=80&w=600",
+                    img: roboticaNino,
                     rules: "seguidor-de-linea.pdf"
                   },
                   {
                     name: "Sumo LEGO",
-                    level: "Primaria",
                     desc: "Robot diseñado para empujar a sus oponentes fuera del área de combate.",
-                    img: "https://images.unsplash.com/photo-1518314916381-77a37c2a49ae?auto=format&fit=crop&q=80&w=600",
+                    img: roboticaNinoCarro,
                     rules: "sumo-lego.pdf"
                   },
                   {
                     name: "Laberinto",
-                    level: "Secundaria",
                     desc: "Robot autónomo capaz de resolver un recorrido complejo mediante sensores.",
-                    img: "https://images.unsplash.com/photo-1742767069929-0c663150b164?auto=format&fit=crop&q=80&w=600",
+                    img: roboticaConcentracion,
                     rules: "laberinto.pdf"
                   },
                   {
                     name: "Electrotec",
-                    level: "Secundaria",
                     desc: "Basada en el uso de robots DIYGO IA para resolver retos tecnológicos.",
-                    img: "https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?auto=format&fit=crop&q=80&w=600",
+                    img: competenciaRobotica,
                     rules: "electrotec.pdf"
+                  },
+                  {
+                    name: "Reto de Robótica",
+                    desc: "Los equipos resuelven un desafío sorpresa de robótica el mismo día del evento.",
+                    img: robotOmni,
+                    rules: "reto-de-robotica.pdf"
                   }
                 ].map((cat, i) => (
                   <div key={i} className="bg-surface rounded-2xl border border-border overflow-hidden flex flex-col group">
@@ -309,7 +317,7 @@ export function Landing() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute top-4 left-4 bg-background/80 backdrop-blur text-xs font-bold px-3 py-1 rounded-full border border-border">
-                        {cat.level}
+                        Reglas generales
                       </div>
                     </div>
                     <div className="p-5 flex-1 flex flex-col">
@@ -338,21 +346,18 @@ export function Landing() {
                 {[
                   {
                     name: "Tecnogame & Desarrollo",
-                    level: "Abierta",
                     desc: "Diseño y desarrollo de videojuegos y soluciones de software innovadoras.",
                     img: "https://images.unsplash.com/photo-1612151388040-9ec75d2de8c7?auto=format&fit=crop&q=80&w=600",
                     rules: "tecnogame-y-desarrollo.pdf"
                   },
                   {
                     name: "Divulgación Científica",
-                    level: "Abierta",
                     desc: "Presentación de investigaciones, prototipos e ideas científicas.",
                     img: "https://images.unsplash.com/photo-1554475901-4538ddfbccc2?auto=format&fit=crop&q=80&w=600",
                     rules: "divulgacion-cientifica.pdf"
                   },
                   {
                     name: "Multimedia",
-                    level: "Abierta",
                     desc: "Creación de contenido digital, animación y producciones audiovisuales.",
                     img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=600",
                     rules: "multimedia.pdf"
@@ -366,7 +371,7 @@ export function Landing() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute top-4 left-4 bg-background/80 backdrop-blur text-xs font-bold px-3 py-1 rounded-full border border-border">
-                        {cat.level}
+                        Reglas generales
                       </div>
                     </div>
                     <div className="p-6 flex-1 flex flex-col">
@@ -406,12 +411,12 @@ export function Landing() {
           <ResponsiveMasonry columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}>
             <Masonry gutter="16px">
               {[
-                "https://images.unsplash.com/photo-1742767069929-0c663150b164?w=500&auto=format&fit=crop&q=60",
-                "https://images.unsplash.com/photo-1518314916381-77a37c2a49ae?w=500&auto=format&fit=crop&q=60",
-                "https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?w=500&auto=format&fit=crop&q=60",
-                "https://images.unsplash.com/photo-1612151388040-9ec75d2de8c7?w=500&auto=format&fit=crop&q=60",
-                "https://images.unsplash.com/photo-1762500825366-ba34b0c5352e?w=500&auto=format&fit=crop&q=60",
-                "https://images.unsplash.com/photo-1554475901-4538ddfbccc2?w=500&auto=format&fit=crop&q=60",
+                roboticaNino,
+                roboticaNinaProgramacion,
+                roboticaConcentracion,
+                roboticaNinoCarro,
+                competenciaRobotica,
+                robotOmni,
               ].map((img, i) => (
                 <div key={i} className="rounded-xl overflow-hidden group">
                   <img 
