@@ -33,12 +33,6 @@ export function Layout() {
                 </>
               )}
               <Link
-                to="/admin/login"
-                className="text-text-muted hover:text-white transition-colors text-sm"
-              >
-                Acceso Admin
-              </Link>
-              <Link
                 to="/registro"
                 className="bg-primary hover:bg-primary-hover text-white px-6 py-2.5 rounded-full font-medium transition-all shadow-[0_0_15px_rgba(37,99,235,0.3)] hover:shadow-[0_0_25px_rgba(37,99,235,0.5)]"
               >
@@ -67,13 +61,6 @@ export function Layout() {
                   <a href="#internacional" className="block text-text-muted hover:text-white py-2" onClick={() => setIsMenuOpen(false)}>Internacional</a>
                 </>
               )}
-              <Link
-                to="/admin/login"
-                className="block text-text-muted hover:text-white py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Acceso Admin
-              </Link>
               <Link
                 to="/registro"
                 onClick={() => setIsMenuOpen(false)}

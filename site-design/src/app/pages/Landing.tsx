@@ -491,14 +491,14 @@ export function Landing() {
             <AccordionItem value="item-1" className="bg-background border border-border rounded-xl px-6">
               <AccordionTrigger className="text-lg font-bold hover:no-underline py-6">¿Cuál es el medio de pago?</AccordionTrigger>
               <AccordionContent className="text-text-muted text-base pb-6">
-                Los pagos se pueden realizar mediante transferencia bancaria (SINPE Móvil) al número oficial del evento o mediante depósito a nuestras cuentas bancarias detalladas en el formulario de inscripción. Todo pago debe ser respaldado con su respectivo comprobante.
+                Los medios de pago se encuentran disponibles en las reglas generales del evento.
               </AccordionContent>
             </AccordionItem>
             
             <AccordionItem value="item-2" className="bg-background border border-border rounded-xl px-6">
               <AccordionTrigger className="text-lg font-bold hover:no-underline py-6">¿De cuántos estudiantes es el equipo?</AccordionTrigger>
               <AccordionContent className="text-text-muted text-base pb-6">
-                Los equipos pueden estar conformados por un máximo de 3 estudiantes y un tutor o mentor encargado. Dependiendo de la categoría, también se permite la participación individual.
+                Hay categorías de máximo 2 estudiantes, como otras de 3. Por favor leer las reglas de cada categoría.
               </AccordionContent>
             </AccordionItem>
 
