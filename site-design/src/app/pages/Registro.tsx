@@ -510,7 +510,7 @@ export function Registro() {
             <span className="text-sm text-text-muted group-hover:text-white transition-colors">
               Declaro que toda la información brindada es verídica y acepto el{" "}
               <a
-                href="/reglamentos/guia-oficial-participacion.pdf"
+                href="/reglamentos/reglamento-y-condiciones.pdf"
                 target="_blank"
                 rel="noreferrer"
                 className="text-cyan hover:text-white underline underline-offset-4"
