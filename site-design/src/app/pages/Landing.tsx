@@ -258,7 +258,7 @@ export function Landing() {
               Encuentra el reto perfecto para tu equipo, desde robótica básica hasta desarrollo de software e investigación.
             </p>
             <a
-              href="/reglamentos/guia-oficial-participacion.pdf"
+              href="/reglamentos/guia-oficial-participacion.pdf?v=20260821"
               target="_blank"
               rel="noreferrer"
               className="mt-6 inline-flex items-center justify-center gap-2 bg-surface hover:bg-surface-hover border border-border text-white px-6 py-3 rounded-full font-bold transition-colors"
