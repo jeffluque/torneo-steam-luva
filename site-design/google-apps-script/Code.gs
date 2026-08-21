@@ -1,5 +1,9 @@
 const SHEET_NAME = 'Inscripciones';
 const IMPORTED_TEAMS_SHEET_NAME = 'Equipos importados';
+const EVALUATIONS_SHEET_NAME = 'Evaluaciones';
+const USER_PREFIX = 'USER_';
+const SESSION_PREFIX = 'SESSION_';
+const SESSION_HOURS = 8;
 const PAYMENT_FOLDER_NAME = 'Comprobantes Torneo STEAM LUVÁ 2026';
 const MAX_PAYMENT_FILE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_PAYMENT_MIME_TYPES = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
@@ -33,7 +37,12 @@ function doPost(e) {
   try {
     lock.waitLock(10000);
     const data = JSON.parse(e.parameter.payload || '{}');
+    if (data.action === 'login') return loginPortal(data);
+    if (data.action === 'logout') return logoutPortal(data.token);
+    if (data.action === 'bootstrap') return bootstrapPortal(data.token);
+    if (data.action === 'saveEvaluation') return saveEvaluationPortal(data.token, data.evaluation);
     if (data.action === 'importTeams') {
+      requireSession(data.token, ['admin']);
       return importTeamsBatch(data.teams || []);
     }
     validateRegistration(data);
@@ -81,6 +90,81 @@ function doPost(e) {
   }
 }
 
+function crearUsuarioPortal(usuario, contrasena, nombre, rol) {
+  usuario = String(usuario || '').trim().toLowerCase();
+  rol = String(rol || '').trim().toLowerCase();
+  if (!usuario || String(contrasena || '').length < 10) throw new Error('El usuario es requerido y la contraseña debe tener al menos 10 caracteres.');
+  if (['admin', 'judge'].indexOf(rol) === -1) throw new Error('El rol debe ser admin o judge.');
+  const salt = Utilities.getUuid();
+  const record = { username: usuario, name: String(nombre || usuario), role: rol, salt: salt, hash: hashPassword(String(contrasena), salt), active: true };
+  PropertiesService.getScriptProperties().setProperty(USER_PREFIX + usuario, JSON.stringify(record));
+  return 'Usuario creado: ' + usuario;
+}
+
+function hashPassword(password, salt) {
+  const bytes = Utilities.computeDigest(Utilities.DigestAlgorithm.SHA_256, salt + ':' + password, Utilities.Charset.UTF_8);
+  return bytes.map(function(byte) { const value = byte < 0 ? byte + 256 : byte; return ('0' + value.toString(16)).slice(-2); }).join('');
+}
+
+function loginPortal(data) {
+  const username = String(data.username || '').trim().toLowerCase();
+  const raw = PropertiesService.getScriptProperties().getProperty(USER_PREFIX + username);
+  if (!raw) throw new Error('Usuario o contraseña incorrectos.');
+  const user = JSON.parse(raw);
+  if (!user.active || user.hash !== hashPassword(String(data.password || ''), user.salt)) throw new Error('Usuario o contraseña incorrectos.');
+  const token = Utilities.getUuid() + Utilities.getUuid();
+  const session = { username: user.username, name: user.name, role: user.role, expiresAt: Date.now() + SESSION_HOURS * 60 * 60 * 1000 };
+  PropertiesService.getScriptProperties().setProperty(SESSION_PREFIX + token, JSON.stringify(session));
+  return jsonResponse({ ok: true, token: token, user: { username: user.username, name: user.name, role: user.role }, teams: getAllTeamsForPortal(), evaluations: getEvaluationsForPortal(user) });
+}
+
+function requireSession(token, roles) {
+  const properties = PropertiesService.getScriptProperties();
+  const key = SESSION_PREFIX + String(token || '');
+  const raw = properties.getProperty(key);
+  if (!raw) throw new Error('Sesión inválida o vencida.');
+  const session = JSON.parse(raw);
+  if (Number(session.expiresAt) < Date.now()) { properties.deleteProperty(key); throw new Error('Sesión vencida.'); }
+  if (roles && roles.indexOf(session.role) === -1) throw new Error('Acceso no autorizado.');
+  return session;
+}
+
+function logoutPortal(token) {
+  PropertiesService.getScriptProperties().deleteProperty(SESSION_PREFIX + String(token || ''));
+  return jsonResponse({ ok: true });
+}
+
+function bootstrapPortal(token) {
+  const session = requireSession(token, ['admin', 'judge']);
+  return jsonResponse({ ok: true, teams: getAllTeamsForPortal(), evaluations: getEvaluationsForPortal(session) });
+}
+
+function saveEvaluationPortal(token, evaluation) {
+  const session = requireSession(token, ['admin', 'judge']);
+  if (!evaluation || !evaluation.teamId || !evaluation.category) throw new Error('Evaluación incompleta.');
+  const sheet = getEvaluationSheet();
+  const id = Utilities.getUuid();
+  sheet.appendRow([new Date(), id, session.username, session.name, evaluation.category, evaluation.teamId, evaluation.teamName || '', JSON.stringify(evaluation.values || {}), evaluation.total === null ? '' : evaluation.total, evaluation.effectiveTime === null ? '' : evaluation.effectiveTime, evaluation.notes || '']);
+  return jsonResponse({ ok: true, id: id });
+}
+
+function getEvaluationSheet() {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = spreadsheet.getSheetByName(EVALUATIONS_SHEET_NAME);
+  if (!sheet) sheet = spreadsheet.insertSheet(EVALUATIONS_SHEET_NAME);
+  if (sheet.getLastRow() === 0) sheet.appendRow(['Fecha', 'ID', 'Usuario juez', 'Nombre juez', 'Categoria', 'ID equipo', 'Equipo', 'Valores JSON', 'Total', 'Tiempo efectivo', 'Observaciones']);
+  sheet.setFrozenRows(1);
+  return sheet;
+}
+
+function getEvaluationsForPortal(session) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(EVALUATIONS_SHEET_NAME);
+  if (!sheet || sheet.getLastRow() < 2) return [];
+  return sheet.getRange(2, 1, sheet.getLastRow() - 1, 11).getValues().filter(function(row) { return session.role === 'admin' || row[2] === session.username; }).map(function(row) {
+    return { createdAt: row[0], id: row[1], judge: row[2], judgeName: row[3], category: row[4], teamId: row[5], teamName: row[6], values: JSON.parse(row[7] || '{}'), total: row[8] === '' ? null : Number(row[8]), effectiveTime: row[9] === '' ? null : Number(row[9]), notes: row[10] || '', selected: false };
+  });
+}
+
 function doGet(e) {
   try {
     const action = String((e && e.parameter && e.parameter.action) || 'health');
@@ -115,7 +199,7 @@ function getAllTeamsForPortal() {
   const registrations = spreadsheet.getSheetByName(SHEET_NAME);
   if (registrations && registrations.getLastRow() > 1) {
     registrations.getRange(2, 1, registrations.getLastRow() - 1, 19).getValues().forEach(function(row) {
-      teams.push({ createdAt: row[0], id: row[1], name: row[2], category: row[3], level: row[4], institution: row[5], province: row[6], district: row[7], director: row[8], institutionEmail: row[9], advisor: row[10], advisorRole: row[11], advisorGender: row[12], advisorEmail: row[13], advisorPhone: row[14], studentsText: row[15], source: 'web' });
+      teams.push({ createdAt: row[0], id: row[1], name: row[2], category: row[3], level: row[4], institution: row[5], province: row[6], district: row[7], director: row[8], institutionEmail: row[9], advisor: row[10], advisorRole: row[11], advisorGender: row[12], advisorEmail: row[13], advisorPhone: row[14], students: parseStudentsCell(row[15]), source: 'web' });
     });
   }
   const imported = spreadsheet.getSheetByName(IMPORTED_TEAMS_SHEET_NAME);
@@ -125,6 +209,13 @@ function getAllTeamsForPortal() {
     });
   }
   return teams;
+}
+
+function parseStudentsCell(value) {
+  return String(value || '').split(/\r?\n/).filter(String).map(function(line) {
+    const parts = line.replace(/^\s*\d+\.\s*/, '').split('|').map(function(part) { return part.trim(); });
+    return { name: parts[0] || '', age: Number(String(parts[1] || '').replace(/\D/g, '')) || 0, email: parts[2] || '', gender: parts[3] || '' };
+  });
 }
 
 function getRegistrationSheet() {

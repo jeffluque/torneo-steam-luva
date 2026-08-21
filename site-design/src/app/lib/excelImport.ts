@@ -1,5 +1,5 @@
 import * as XLSX from "xlsx";
-import { addTeams, Team } from "./demoStore";
+import { addTeams, getSession, Team } from "./demoStore";
 
 const clean=(v:unknown)=>String(v??"").trim();
 const normalized=(v:string)=>v.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]/g,"");
@@ -9,7 +9,7 @@ const parseCombinedStudents=(value:string)=>value.split(/\r?\n/).map(line=>line.
 
 export type ImportReport={added:number;duplicates:number;errors:string[]};
 const MAX_FILE_SIZE=10*1024*1024;
-async function syncInBackground(endpoint:string,teams:Team[]){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),10000);try{const body=new URLSearchParams({payload:JSON.stringify({action:"importTeams",teams})});await fetch(endpoint,{method:"POST",body,signal:controller.signal})}catch{localStorage.setItem("luva-pending-team-sync",JSON.stringify(teams))}finally{clearTimeout(timer)}}
+async function syncInBackground(endpoint:string,teams:Team[]){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),10000);try{const body=new URLSearchParams({payload:JSON.stringify({action:"importTeams",token:getSession()?.token,teams})});await fetch(endpoint,{method:"POST",body,signal:controller.signal})}catch{localStorage.setItem("luva-pending-team-sync",JSON.stringify(teams))}finally{clearTimeout(timer)}}
 export async function importTeamsFile(file:File):Promise<ImportReport>{
  if(file.size>MAX_FILE_SIZE)throw new Error("El archivo supera el máximo de 10 MB.");
  await new Promise(resolve=>setTimeout(resolve,30));
