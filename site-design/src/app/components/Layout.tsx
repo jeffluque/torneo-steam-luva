@@ -100,7 +100,7 @@ export function Layout() {
               <li><Link to="/" className="hover:text-cyan transition-colors">Inicio</Link></li>
               <li><Link to="/registro" className="hover:text-cyan transition-colors">Inscripción</Link></li>
               <li><a href="#faq" className="hover:text-cyan transition-colors">Preguntas Frecuentes</a></li>
-              <li><Link to="/admin/login" className="hover:text-cyan transition-colors">Portal de Jueces</Link></li>
+              <li><Link to="/acceso" className="hover:text-cyan transition-colors">Portal de Jueces</Link></li>
             </ul>
           </div>
           

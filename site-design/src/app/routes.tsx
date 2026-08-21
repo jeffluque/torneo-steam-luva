@@ -8,7 +8,13 @@ import { Equipos } from "./pages/admin/Equipos";
 import { EquipoDetalle } from "./pages/admin/EquipoDetalle";
 import { Categorias } from "./pages/admin/Categorias";
 import { CheckIn } from "./pages/admin/CheckIn";
-import { Login } from "./pages/admin/Login";
+import { Access } from "./pages/Access";
+import { RoleGuard } from "./components/RoleGuard";
+import { JudgeLayout } from "./pages/judge/JudgeLayout";
+import { EvaluationForm } from "./pages/judge/EvaluationForm";
+import { JudgeHistory } from "./pages/judge/JudgeHistory";
+import { Evaluaciones } from "./pages/admin/Evaluaciones";
+import { Ganadores } from "./pages/admin/Ganadores";
 
 export const router = createBrowserRouter([
   {
@@ -19,19 +25,18 @@ export const router = createBrowserRouter([
       { path: "registro", Component: Registro },
     ],
   },
+  { path: "/acceso", Component: Access },
+  { path: "/admin/login", Component: Access },
   {
-    path: "/admin/login",
-    Component: Login,
+    Component: RoleGuard,
+    children: [{ path: "/admin", Component: AdminLayout, children: [
+      { index: true, Component: Dashboard }, { path: "equipos", Component: Equipos },
+      { path: "equipos/:id", Component: EquipoDetalle }, { path: "categorias", Component: Categorias },
+      { path: "check-in", Component: CheckIn }, { path: "evaluaciones", Component: Evaluaciones },
+      { path: "ganadores", Component: Ganadores },
+    ]}],
   },
-  {
-    path: "/admin",
-    Component: AdminLayout,
-    children: [
-      { index: true, Component: Dashboard },
-      { path: "equipos", Component: Equipos },
-      { path: "equipos/:id", Component: EquipoDetalle },
-      { path: "categorias", Component: Categorias },
-      { path: "check-in", Component: CheckIn },
-    ],
-  }
+  { Component: RoleGuard, children: [{ path: "/juez", Component: JudgeLayout, children: [
+    { index: true, Component: EvaluationForm }, { path: "historial", Component: JudgeHistory },
+  ]}]},
 ]);

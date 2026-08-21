@@ -1,6 +1,7 @@
 import { Outlet, NavLink, useNavigate } from "react-router";
-import { LayoutDashboard, Users, Tags, QrCode, Settings, LogOut, Menu, X, Rocket } from "lucide-react";
+import { LayoutDashboard, Users, Tags, Settings, LogOut, Menu, X, Rocket, ClipboardCheck, Trophy } from "lucide-react";
 import { useState } from "react";
+import { getSession, logout } from "../../lib/demoStore";
 
 export function AdminLayout() {
   const navigate = useNavigate();
@@ -10,7 +11,8 @@ export function AdminLayout() {
     { to: "/admin", icon: LayoutDashboard, label: "Dashboard", end: true },
     { to: "/admin/equipos", icon: Users, label: "Inscripciones" },
     { to: "/admin/categorias", icon: Tags, label: "Categorías" },
-    { to: "/admin/check-in", icon: QrCode, label: "Check-in QR" },
+    { to: "/admin/evaluaciones", icon: ClipboardCheck, label: "Evaluaciones" },
+    { to: "/admin/ganadores", icon: Trophy, label: "Ganadores" },
   ];
 
   return (
@@ -71,7 +73,7 @@ export function AdminLayout() {
 
         <div className="p-4 border-t border-border">
           <button 
-            onClick={() => navigate("/admin/login")}
+            onClick={() => { logout(); navigate("/acceso"); }}
             className="flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium text-sm text-text-muted hover:bg-red-500/10 hover:text-red-500 w-full"
           >
             <LogOut className="w-5 h-5" />
@@ -85,8 +87,8 @@ export function AdminLayout() {
         <header className="h-16 border-b border-border bg-surface/50 backdrop-blur flex items-center justify-end px-6 sticky top-0 z-30">
           <div className="flex items-center gap-4">
             <div className="text-right hidden md:block">
-              <p className="text-sm font-bold">Administrador</p>
-              <p className="text-xs text-text-muted">admin@steamluva.cr</p>
+              <p className="text-sm font-bold">{getSession()?.name || "Administrador"}</p>
+              <p className="text-xs text-text-muted">Cuenta administrativa</p>
             </div>
             <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center border border-primary/30">
               <Settings className="w-5 h-5 text-primary" />

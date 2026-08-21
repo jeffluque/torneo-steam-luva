@@ -1,4 +1,5 @@
 const SHEET_NAME = 'Inscripciones';
+const IMPORTED_TEAMS_SHEET_NAME = 'Equipos importados';
 const PAYMENT_FOLDER_NAME = 'Comprobantes Torneo STEAM LUVÁ 2026';
 const MAX_PAYMENT_FILE_SIZE = 5 * 1024 * 1024;
 const ALLOWED_PAYMENT_MIME_TYPES = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
@@ -32,6 +33,9 @@ function doPost(e) {
   try {
     lock.waitLock(10000);
     const data = JSON.parse(e.parameter.payload || '{}');
+    if (data.action === 'importTeams') {
+      return importTeamsBatch(data.teams || []);
+    }
     validateRegistration(data);
 
     const registrationId = Utilities.getUuid();
@@ -75,6 +79,52 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+}
+
+function doGet(e) {
+  try {
+    const action = String((e && e.parameter && e.parameter.action) || 'health');
+    if (action === 'teams') return jsonResponse({ ok: true, teams: getAllTeamsForPortal() });
+    return jsonResponse({ ok: true, service: 'Torneo STEAM LUVA 2026' });
+  } catch (error) {
+    return jsonResponse({ ok: false, error: error.message });
+  }
+}
+
+function importTeamsBatch(teams) {
+  if (!Array.isArray(teams) || teams.length < 1) throw new Error('No se recibieron equipos.');
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = spreadsheet.getSheetByName(IMPORTED_TEAMS_SHEET_NAME);
+  if (!sheet) sheet = spreadsheet.insertSheet(IMPORTED_TEAMS_SHEET_NAME);
+  const headers = ['Fecha', 'ID', 'Equipo', 'Categoria', 'Nivel', 'Institucion', 'Provincia', 'Distrito', 'Director', 'Correo institucion', 'Asesor', 'Rol asesor', 'Genero asesor', 'Telefono asesor', 'Correo asesor', 'Estudiantes JSON', 'Origen'];
+  if (sheet.getLastRow() === 0) sheet.appendRow(headers);
+  const existing = sheet.getLastRow() > 1 ? sheet.getRange(2, 2, sheet.getLastRow() - 1, 1).getValues().flat() : [];
+  const existingIds = new Set(existing.map(String));
+  const rows = teams.filter(function(team) { return team.id && !existingIds.has(String(team.id)); }).map(function(team) {
+    if (!team.name || !team.category || !team.institution || !Array.isArray(team.students) || team.students.length < 1 || team.students.length > 3) throw new Error('Equipo importado invalido: ' + (team.name || 'sin nombre'));
+    return [new Date(), team.id, team.name, team.category, team.level || '', team.institution, team.province || '', team.district || '', team.director || '', team.institutionEmail || '', team.advisor || '', team.advisorRole || '', team.advisorGender || '', team.advisorPhone || '', team.advisorEmail || '', JSON.stringify(team.students), 'Excel'];
+  });
+  if (rows.length) sheet.getRange(sheet.getLastRow() + 1, 1, rows.length, headers.length).setValues(rows);
+  sheet.setFrozenRows(1);
+  return jsonResponse({ ok: true, added: rows.length, duplicates: teams.length - rows.length });
+}
+
+function getAllTeamsForPortal() {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+  const teams = [];
+  const registrations = spreadsheet.getSheetByName(SHEET_NAME);
+  if (registrations && registrations.getLastRow() > 1) {
+    registrations.getRange(2, 1, registrations.getLastRow() - 1, 19).getValues().forEach(function(row) {
+      teams.push({ createdAt: row[0], id: row[1], name: row[2], category: row[3], level: row[4], institution: row[5], province: row[6], district: row[7], director: row[8], institutionEmail: row[9], advisor: row[10], advisorRole: row[11], advisorGender: row[12], advisorEmail: row[13], advisorPhone: row[14], studentsText: row[15], source: 'web' });
+    });
+  }
+  const imported = spreadsheet.getSheetByName(IMPORTED_TEAMS_SHEET_NAME);
+  if (imported && imported.getLastRow() > 1) {
+    imported.getRange(2, 1, imported.getLastRow() - 1, 17).getValues().forEach(function(row) {
+      teams.push({ createdAt: row[0], id: row[1], name: row[2], category: row[3], level: row[4], institution: row[5], province: row[6], district: row[7], director: row[8], institutionEmail: row[9], advisor: row[10], advisorRole: row[11], advisorGender: row[12], advisorPhone: row[13], advisorEmail: row[14], students: JSON.parse(row[15] || '[]'), source: 'excel' });
+    });
+  }
+  return teams;
 }
 
 function getRegistrationSheet() {

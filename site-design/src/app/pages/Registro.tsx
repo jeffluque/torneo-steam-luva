@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { Link } from "react-router";
 import { CheckCircle2, Rocket, Upload, Plus, Trash2, ArrowLeft, Building2, User, Users } from "lucide-react";
+import { addTeams } from "../lib/demoStore";
 
 type Student = {
   nombre: string;
@@ -126,6 +127,8 @@ export function Registro() {
       if (!response.ok || !result.ok) {
         throw new Error(result.error || "No se pudo registrar el equipo.");
       }
+
+      addTeams([{ id: result.registrationId, name: data.nombreProyecto, category: data.categoria, level: data.nivelEscolar, institution: data.institucion, province: data.provincia, district: data.distrito, director: data.nombreDirector, institutionEmail: data.emailInstitucion, advisor: data.nombreAsesor, advisorRole: data.rolAsesor, advisorGender: data.generoAsesor, advisorPhone: data.telefonoAsesor, advisorEmail: data.correoAsesor, students: data.integrantes.map(student => ({ name: student.nombre, age: Number(student.edad), gender: student.genero, email: student.correo })), source: "web", createdAt: new Date().toISOString() }]);
 
       setIsSubmitted(true);
     } catch (error) {
