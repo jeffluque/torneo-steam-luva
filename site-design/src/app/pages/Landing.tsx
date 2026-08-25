@@ -382,7 +382,7 @@ export function Landing() {
                     desc: "Presentación de proyectos robóticos con un prototipo funcional.",
                     level: "Primaria - Universidad",
                     img: roboticaNinaProgramacion,
-                    rules: ""
+                    rules: "robotica-proyectos.pdf"
                   }
                 ].map((cat, i) => (
                   <div key={i} className="bg-surface rounded-2xl border border-border overflow-hidden flex flex-col group">
