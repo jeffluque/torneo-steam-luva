@@ -261,10 +261,10 @@ export function Landing() {
               href="/reglamentos/guia-oficial-participacion.pdf?v=20260821-final"
               target="_blank"
               rel="noreferrer"
-              className="mt-6 inline-flex items-center justify-center gap-2 bg-surface hover:bg-surface-hover border border-border text-white px-6 py-3 rounded-full font-bold transition-colors"
+              className="mt-8 inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-cyan via-primary to-accent px-8 py-4 text-white font-black text-base md:text-lg shadow-[0_0_35px_rgba(34,211,238,0.35)] ring-2 ring-cyan/40 hover:scale-[1.02] hover:shadow-[0_0_45px_rgba(34,211,238,0.55)] transition-all"
             >
-              <Download className="w-4 h-4" />
-              Ver guía oficial de participación
+              <Download className="w-5 h-5" />
+              Descargar guía oficial de participación
             </a>
           </div>
 
@@ -354,7 +354,7 @@ export function Landing() {
             </TabsContent>
 
             <TabsContent value="infomatrix" className="mt-0">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
                 {[
                   {
                     name: "Tecnogame y Desarrollo de Software",
@@ -376,6 +376,13 @@ export function Landing() {
                     level: "Primaria - Universidad",
                     img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=600",
                     rules: "multimedia.pdf"
+                  },
+                  {
+                    name: "Robótica (Exposición de proyectos robóticos con prototipo)",
+                    desc: "Presentación de proyectos robóticos con un prototipo funcional.",
+                    level: "Primaria - Universidad",
+                    img: roboticaNinaProgramacion,
+                    rules: ""
                   }
                 ].map((cat, i) => (
                   <div key={i} className="bg-surface rounded-2xl border border-border overflow-hidden flex flex-col group">
@@ -399,10 +406,16 @@ export function Landing() {
                         >
                           Inscribirme
                         </Link>
-                        <a href={`/reglamentos/${cat.rules}`} target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 bg-background hover:bg-border border border-border text-white text-center py-2.5 rounded-lg font-medium transition-colors text-sm">
-                          <Download className="w-4 h-4" />
-                          Reglamento PDF
-                        </a>
+                        {cat.rules ? (
+                          <a href={`/reglamentos/${cat.rules}`} target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 bg-background hover:bg-border border border-border text-white text-center py-2.5 rounded-lg font-medium transition-colors text-sm">
+                            <Download className="w-4 h-4" />
+                            Reglamento PDF
+                          </a>
+                        ) : (
+                          <span className="w-full flex items-center justify-center gap-2 bg-background/60 border border-border text-text-muted text-center py-2.5 rounded-lg font-medium text-sm">
+                            Reglamento próximamente
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>

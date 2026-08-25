@@ -440,7 +440,8 @@ function getCategoryLabel(value) {
     'reto-robotica': 'Reto de Robótica',
     tecnogame: 'Tecnogame y Desarrollo de Software',
     divulgacion: 'Divulgación Científica',
-    multimedia: 'Multimedia'
+    multimedia: 'Multimedia',
+    'robotica-proyectos': 'Robótica (Exposición de proyectos robóticos con prototipo)'
   };
 
   return categories[value] || value;

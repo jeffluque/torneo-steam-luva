@@ -11,7 +11,7 @@ const presentationFields: FieldDefinition[] = [
 const presentation=(id:string,name:string):CategoryDefinition=>({id,name,mode:"score",fields:presentationFields,maxScore:50,instructions:["Califique cada criterio de 1 a 10.","La presentación no debe superar 7 minutos.","Considere el nivel educativo."],rankingRule:"Mayor puntaje sobre 50 entre las evaluaciones que seleccione el administrador."});
 
 export const categories:CategoryDefinition[]=[
-  presentation("tecnogame","Tecnogame y Desarrollo"), presentation("multimedia","Multimedia (Animación y Cortometraje)"), presentation("divulgacion","Divulgación Científica"),
+  presentation("tecnogame","Tecnogame y Desarrollo de Software"), presentation("multimedia","Multimedia (Animación y Cortometraje)"), presentation("divulgacion","Divulgación Científica"), presentation("robotica-proyectos","Robótica (Exposición de proyectos robóticos con prototipo)"),
   {id:"tecnokids",name:"TecnoKids",mode:"score",maxScore:100,fields:[
     {id:"pecesPrimero",label:"Peces llevados al primer lado",description:"0 a 10 peces, 4 puntos cada uno",kind:"number",min:0,max:10,multiplier:4},
     {id:"pecesOpuesto",label:"Peces llevados al lado opuesto",description:"0 a 10 peces, 4 puntos cada uno",kind:"number",min:0,max:10,multiplier:4},

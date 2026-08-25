@@ -208,21 +208,22 @@ export function Registro() {
                   <option value="tecnogame">Tecnogame y Desarrollo de Software</option>
                   <option value="divulgacion">Divulgación Científica</option>
                   <option value="multimedia">Multimedia</option>
+                  <option value="robotica-proyectos">Robótica (Exposición de proyectos robóticos con prototipo)</option>
                 </optgroup>
               </select>
               {errors.categoria && <span className="text-red-500 text-xs mt-1">Seleccioná una categoría</span>}
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Nivel Escolar *</label>
+              <label className="block text-sm font-medium mb-2">Grado / nivel escolar *</label>
               <select
                 {...register("nivelEscolar", { required: true })}
                 className="w-full bg-background border border-border rounded-lg px-4 py-3 text-white focus:outline-none focus:border-primary transition-colors appearance-none"
               >
                 <option value="">Seleccioná el nivel</option>
-                <option value="Primaria">Primaria</option>
+                <option value="Primaria I ciclo">Primaria I ciclo</option>
+                <option value="Primaria II ciclo">Primaria II ciclo</option>
                 <option value="Secundaria">Secundaria</option>
-                <option value="Universidad">Universidad</option>
               </select>
               {errors.nivelEscolar && <span className="text-red-500 text-xs mt-1">Seleccioná un nivel escolar</span>}
             </div>
