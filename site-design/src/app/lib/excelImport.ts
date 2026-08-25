@@ -1,5 +1,6 @@
 import * as XLSX from "xlsx";
 import { addTeams, getSession, Team } from "./demoStore";
+import { REGISTRATION_ENDPOINT } from "./config";
 
 const clean=(v:unknown)=>String(v??"").trim();
 const normalized=(v:string)=>v.normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]/g,"");
@@ -26,7 +27,7 @@ export async function importTeamsFile(file:File):Promise<ImportReport>{
   valid.push({id:`XL-${Date.now()}-${index+1}`,name,category,level:pick(row,"Nivel escolar","Nivel"),institution,province:pick(row,"Provincia"),district:pick(row,"Distrito"),director:pick(row,"Nombre del director","Director(a)"),institutionEmail:pick(row,"Correo de la institución","Correo de la institucion","Correo institución"),advisor:pick(row,"Nombre del asesor","Asesor(a)"),advisorRole:pick(row,"Rol del asesor","Rol"),advisorGender:pick(row,"Género del asesor","Genero del asesor","Género asesor(a)"),advisorPhone:pick(row,"Teléfono del asesor","Telefono del asesor","Teléfono"),advisorEmail:pick(row,"Correo del asesor","Correo asesor(a)"),students,source:"excel",createdAt:new Date().toISOString()});
  });
  const result=addTeams(valid);
- const endpoint=import.meta.env.VITE_REGISTRATION_ENDPOINT;
+ const endpoint=REGISTRATION_ENDPOINT;
  if(endpoint&&valid.length)void syncInBackground(endpoint,valid);
  return{...result,errors};
 }

@@ -3,6 +3,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { Link } from "react-router";
 import { CheckCircle2, Rocket, Upload, Plus, Trash2, ArrowLeft, Building2, User, Users } from "lucide-react";
 import { addTeams } from "../lib/demoStore";
+import { REGISTRATION_ENDPOINT } from "../lib/config";
 
 type Student = {
   nombre: string;
@@ -90,10 +91,10 @@ export function Registro() {
 
   const onSubmit = async (data: FormValues) => {
     setSubmitError("");
-    const endpoint = import.meta.env.VITE_REGISTRATION_ENDPOINT;
+    const endpoint = REGISTRATION_ENDPOINT;
 
     if (!endpoint) {
-      setSubmitError("El formulario aún no está conectado. Configurá VITE_REGISTRATION_ENDPOINT antes de publicarlo.");
+      setSubmitError("El formulario aún no está conectado. Revisá la configuración del endpoint de inscripción antes de publicarlo.");
       return;
     }
 

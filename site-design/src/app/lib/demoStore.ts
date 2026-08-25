@@ -1,3 +1,5 @@
+import { REGISTRATION_ENDPOINT } from "./config";
+
 export type UserSession={username:string;name:string;role:"admin"|"judge";token:string};
 export type Student={name:string;age:number;gender:string;email:string};
 export type Team={id:string;name:string;category:string;level:string;institution:string;province:string;district:string;director:string;institutionEmail:string;advisor:string;advisorRole:string;advisorGender:string;advisorPhone:string;advisorEmail:string;students:Student[];source:"web"|"excel"|"demo";createdAt:string};
@@ -11,7 +13,7 @@ export const demoTeams:Team[]=[
 export function getTeams():Team[]{try{const saved=JSON.parse(localStorage.getItem(TEAMS_KEY)||"null");return Array.isArray(saved)?saved:demoTeams}catch{return demoTeams}}
 export function saveTeams(teams:Team[]){localStorage.setItem(TEAMS_KEY,JSON.stringify(teams))}
 export function addTeams(incoming:Team[]){const current=getTeams();const keys=new Set(current.map(t=>`${t.name}|${t.category}|${t.institution}`.toLowerCase()));const added=incoming.filter(t=>!keys.has(`${t.name}|${t.category}|${t.institution}`.toLowerCase()));saveTeams([...current,...added]);return{added:added.length,duplicates:incoming.length-added.length}}
-async function api(payload:Record<string,unknown>){const endpoint=import.meta.env.VITE_REGISTRATION_ENDPOINT;if(!endpoint)throw new Error("El servicio de acceso no está configurado.");const body=new URLSearchParams({payload:JSON.stringify(payload)}),response=await fetch(endpoint,{method:"POST",body});const result=await response.json();if(!result.ok)throw new Error(result.error||"No se pudo conectar con el servicio.");return result}
+async function api(payload:Record<string,unknown>){const endpoint=REGISTRATION_ENDPOINT;if(!endpoint)throw new Error("El servicio de acceso no está configurado.");const body=new URLSearchParams({payload:JSON.stringify(payload)}),response=await fetch(endpoint,{method:"POST",body});const result=await response.json();if(!result.ok)throw new Error(result.error||"No se pudo conectar con el servicio.");return result}
 export async function login(username:string,password:string){const result=await api({action:"login",username,password});const session:UserSession={...result.user,token:result.token};sessionStorage.setItem(SESSION_KEY,JSON.stringify(session));if(Array.isArray(result.teams))saveTeams(result.teams);if(Array.isArray(result.evaluations))localStorage.setItem(EVALUATIONS_KEY,JSON.stringify(result.evaluations));return session}
 export function getSession():UserSession|null{try{return JSON.parse(sessionStorage.getItem(SESSION_KEY)||"null")}catch{return null}}
 export function logout(){const session=getSession();sessionStorage.removeItem(SESSION_KEY);if(session?.token)void api({action:"logout",token:session.token}).catch(()=>undefined)}
