@@ -27,6 +27,8 @@ import retoRobotica2025 from "../../imports/fotos/reto-robotica-2025.webp";
 import tecnogameDesarrollo2025 from "../../imports/fotos/tecnogame-desarrollo-2025.webp";
 import divulgacionCientifica2025 from "../../imports/fotos/divulgacion-cientifica-2025.webp";
 
+const PDF_VERSION = "20260828";
+
 export function Landing() {
   return (
     <div className="flex flex-col">
@@ -258,7 +260,7 @@ export function Landing() {
               Encuentra el reto perfecto para tu equipo, desde robótica básica hasta desarrollo de software e investigación.
             </p>
             <a
-              href="/reglamentos/guia-oficial-participacion.pdf?v=20260821-final"
+              href={`/reglamentos/guia-oficial-participacion.pdf?v=${PDF_VERSION}`}
               target="_blank"
               rel="noreferrer"
               className="mt-8 inline-flex items-center justify-center gap-3 rounded-full bg-gradient-to-r from-cyan via-primary to-accent px-8 py-4 text-white font-black text-base md:text-lg shadow-[0_0_35px_rgba(34,211,238,0.35)] ring-2 ring-cyan/40 hover:scale-[1.02] hover:shadow-[0_0_45px_rgba(34,211,238,0.55)] transition-all"
@@ -342,7 +344,7 @@ export function Landing() {
                         >
                           Inscribirme
                         </Link>
-                        <a href={`/reglamentos/${cat.rules}`} target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 bg-background hover:bg-border border border-border text-white text-center py-2.5 rounded-lg font-medium transition-colors text-sm">
+                        <a href={`/reglamentos/${cat.rules}?v=${PDF_VERSION}`} target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 bg-background hover:bg-border border border-border text-white text-center py-2.5 rounded-lg font-medium transition-colors text-sm">
                           <Download className="w-4 h-4" />
                           Reglamento PDF
                         </a>
@@ -407,7 +409,7 @@ export function Landing() {
                           Inscribirme
                         </Link>
                         {cat.rules ? (
-                          <a href={`/reglamentos/${cat.rules}`} target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 bg-background hover:bg-border border border-border text-white text-center py-2.5 rounded-lg font-medium transition-colors text-sm">
+                          <a href={`/reglamentos/${cat.rules}?v=${PDF_VERSION}`} target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 bg-background hover:bg-border border border-border text-white text-center py-2.5 rounded-lg font-medium transition-colors text-sm">
                             <Download className="w-4 h-4" />
                             Reglamento PDF
                           </a>
