@@ -471,7 +471,7 @@ export function Landing() {
           <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-border before:to-transparent">
             {[
               { date: "13 Julio", title: "Apertura de inscripciones", desc: "Inicio de registro para todos los equipos a nivel nacional." },
-              { date: "01 de Setiembre", title: "Cierre de inscripciones", desc: "Último día para registrar equipos y proyectos." },
+              { date: "15 de Setiembre", title: "Cierre de inscripciones", desc: "Último día para registrar equipos y proyectos." },
               { date: "18 de Setiembre", title: "Entrega de Documentos", desc: "Cada categoría tiene un entregable, revisar contra reglamento." },
               { date: "10 Octubre", title: "Competencia Nacional", desc: "El gran evento presencial en Cedes Don Bosco." },
             ].map((item, i) => (
