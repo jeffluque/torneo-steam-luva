@@ -27,7 +27,7 @@ import retoRobotica2025 from "../../imports/fotos/reto-robotica-2025.webp";
 import tecnogameDesarrollo2025 from "../../imports/fotos/tecnogame-desarrollo-2025.webp";
 import divulgacionCientifica2025 from "../../imports/fotos/divulgacion-cientifica-2025.webp";
 
-const PDF_VERSION = "20260901";
+const PDF_VERSION = "20260922";
 
 export function Landing() {
   return (
