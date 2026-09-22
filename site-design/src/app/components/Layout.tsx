@@ -32,12 +32,6 @@ export function Layout() {
                   <a href="#internacional" className="text-text-muted hover:text-white transition-colors">Internacional</a>
                 </>
               )}
-              <Link
-                to="/registro"
-                className="bg-primary hover:bg-primary-hover text-white px-6 py-2.5 rounded-full font-medium transition-all shadow-[0_0_15px_rgba(37,99,235,0.3)] hover:shadow-[0_0_25px_rgba(37,99,235,0.5)]"
-              >
-                Inscribir Equipo
-              </Link>
             </nav>
 
             {/* Mobile Menu Button */}
@@ -61,13 +55,6 @@ export function Layout() {
                   <a href="#internacional" className="block text-text-muted hover:text-white py-2" onClick={() => setIsMenuOpen(false)}>Internacional</a>
                 </>
               )}
-              <Link
-                to="/registro"
-                onClick={() => setIsMenuOpen(false)}
-                className="bg-primary text-center text-white px-6 py-3 rounded-full font-medium mt-4"
-              >
-                Inscribir Equipo
-              </Link>
             </div>
           </div>
         )}
@@ -98,7 +85,7 @@ export function Layout() {
             <h4 className="font-semibold mb-4">Enlaces Rápidos</h4>
             <ul className="space-y-2 text-text-muted">
               <li><Link to="/" className="hover:text-cyan transition-colors">Inicio</Link></li>
-              <li><Link to="/registro" className="hover:text-cyan transition-colors">Inscripción</Link></li>
+              <li><a href="/#categorias" className="hover:text-cyan transition-colors">Categorías y reglamentos</a></li>
               <li><a href="#faq" className="hover:text-cyan transition-colors">Preguntas Frecuentes</a></li>
               <li><Link to="/acceso" className="hover:text-cyan transition-colors">Portal de Jueces</Link></li>
             </ul>

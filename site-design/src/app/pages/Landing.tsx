@@ -1,5 +1,4 @@
-import { Link } from "react-router";
-import { ArrowRight, Trophy, Code2, Lightbulb, Globe2, ChevronDown, CheckCircle2, Calendar, MapPin, Clock, Download } from "lucide-react";
+import { Trophy, Code2, Lightbulb, Globe2, ChevronDown, CheckCircle2, Calendar, MapPin, Clock, Download } from "lucide-react";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "../components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../components/ui/accordion";
@@ -49,7 +48,7 @@ export function Landing() {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface border border-border mb-6">
               <span className="w-2 h-2 rounded-full bg-cyan animate-pulse"></span>
-              <span className="text-sm font-medium text-cyan">Inscripciones Abiertas</span>
+              <span className="text-sm font-medium text-cyan">Inscripciones Cerradas · Nos vemos pronto</span>
             </div>
             
             <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight tracking-tight">
@@ -60,17 +59,19 @@ export function Landing() {
             </h1>
             
             <p className="text-xl md:text-2xl text-text-muted mb-10 max-w-2xl font-light">
-              Competí, innová y representá a Costa Rica en eventos internacionales de ciencia, tecnología y robótica.
+              La etapa de registro ha finalizado. Muy pronto viviremos la competencia nacional donde estudiantes de todo el país mostrarán su talento, innovación y creatividad.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 mb-16">
-              <Link
-                to="/registro"
+              <a
+                href={`/reglamentos/guia-oficial-participacion.pdf?v=${PDF_VERSION}`}
+                target="_blank"
+                rel="noreferrer"
                 className="bg-primary hover:bg-primary-hover text-white px-8 py-4 rounded-full font-bold text-lg flex items-center justify-center gap-2 transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)]"
               >
-                INSCRIBIR EQUIPO
-                <ArrowRight className="w-5 h-5" />
-              </Link>
+                GUÍA DEL PARTICIPANTE
+                <Download className="w-5 h-5" />
+              </a>
               <a
                 href="#categorias"
                 className="bg-surface hover:bg-surface-hover border border-border text-white px-8 py-4 rounded-full font-bold text-lg flex items-center justify-center gap-2 transition-colors"
@@ -102,13 +103,13 @@ export function Landing() {
         </div>
       </section>
 
-      {/* POR QUÉ PARTICIPAR */}
+      {/* EXPECTATIVA DEL EVENTO */}
       <section className="py-24 bg-background relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">¿Por qué participar?</h2>
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">La competencia está por comenzar</h2>
             <p className="text-text-muted text-lg max-w-2xl mx-auto">
-              Más que una competencia, es el inicio de tu carrera en el mundo de la tecnología.
+              La energía del Torneo STEAM LUVÁ 2026 ya se siente. Equipos, asesores y jueces se preparan para una jornada llena de tecnología, creatividad y grandes retos.
             </p>
           </div>
 
@@ -116,29 +117,29 @@ export function Landing() {
             {[
               {
                 icon: Trophy,
-                title: "Competí",
-                desc: "Poné a prueba tus habilidades frente a estudiantes de todo el país.",
+                title: "Preparación",
+                desc: "Los equipos afinan sus proyectos, robots y presentaciones para el gran día.",
                 color: "text-primary",
                 bg: "bg-primary/10"
               },
               {
                 icon: Code2,
-                title: "Aprendé",
-                desc: "Desarrollá programación, ingeniería y pensamiento crítico.",
+                title: "Reglamentos",
+                desc: "La guía y las reglas por categoría siguen disponibles para consulta.",
                 color: "text-accent",
                 bg: "bg-accent/10"
               },
               {
                 icon: Lightbulb,
-                title: "Innová",
-                desc: "Convertí tus ideas en proyectos reales y soluciones tangibles.",
+                title: "Expectativa",
+                desc: "Muy pronto veremos soluciones, prototipos y talento en acción.",
                 color: "text-cyan",
                 bg: "bg-cyan/10"
               },
               {
                 icon: Globe2,
-                title: "Representá a CR",
-                desc: "Obtené acreditaciones internacionales para competir en el exterior.",
+                title: "Proyección",
+                desc: "Los mejores proyectos podrán abrir camino hacia experiencias internacionales.",
                 color: "text-emerald-400",
                 bg: "bg-emerald-400/10"
               }
@@ -182,12 +183,12 @@ export function Landing() {
                 ))}
               </ul>
 
-              <Link
-                to="/registro"
+              <a
+                href="#categorias"
                 className="bg-white text-background hover:bg-gray-200 px-8 py-4 rounded-full font-bold text-lg inline-flex items-center gap-2 transition-colors"
               >
-                QUIERO PARTICIPAR
-              </Link>
+                Ver categorías y reglamentos
+              </a>
             </div>
             
             <div className="relative">
@@ -257,7 +258,7 @@ export function Landing() {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold mb-4">Categorías de Competencia</h2>
             <p className="text-text-muted text-lg max-w-2xl mx-auto">
-              Encuentra el reto perfecto para tu equipo, desde robótica básica hasta desarrollo de software e investigación.
+              Consultá las categorías oficiales, niveles y reglamentos antes de la competencia.
             </p>
             <a
               href={`/reglamentos/guia-oficial-participacion.pdf?v=${PDF_VERSION}`}
@@ -338,12 +339,6 @@ export function Landing() {
                       <h3 className="text-lg font-bold mb-2">{cat.name}</h3>
                       <p className="text-text-muted text-sm mb-6 flex-1">{cat.desc}</p>
                       <div className="flex flex-col gap-2">
-                        <Link
-                          to="/registro"
-                          className="w-full bg-primary hover:bg-primary-hover text-white text-center py-2.5 rounded-lg font-medium transition-colors text-sm"
-                        >
-                          Inscribirme
-                        </Link>
                         <a href={`/reglamentos/${cat.rules}?v=${PDF_VERSION}`} target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 bg-background hover:bg-border border border-border text-white text-center py-2.5 rounded-lg font-medium transition-colors text-sm">
                           <Download className="w-4 h-4" />
                           Reglamento PDF
@@ -402,12 +397,6 @@ export function Landing() {
                       <h3 className="text-xl font-bold mb-2">{cat.name}</h3>
                       <p className="text-text-muted text-sm mb-6 flex-1">{cat.desc}</p>
                       <div className="flex flex-col gap-2">
-                        <Link
-                          to="/registro"
-                          className="w-full bg-accent hover:bg-accent/80 text-white text-center py-2.5 rounded-lg font-medium transition-colors text-sm"
-                        >
-                          Inscribirme
-                        </Link>
                         {cat.rules ? (
                           <a href={`/reglamentos/${cat.rules}?v=${PDF_VERSION}`} target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 bg-background hover:bg-border border border-border text-white text-center py-2.5 rounded-lg font-medium transition-colors text-sm">
                             <Download className="w-4 h-4" />
@@ -470,8 +459,8 @@ export function Landing() {
 
           <div className="space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-border before:to-transparent">
             {[
-              { date: "13 Julio", title: "Apertura de inscripciones", desc: "Inicio de registro para todos los equipos a nivel nacional." },
-              { date: "15 de Setiembre", title: "Cierre de inscripciones", desc: "Último día para registrar equipos y proyectos." },
+              { date: "13 Julio", title: "Apertura de inscripciones", desc: "Inicio del registro para equipos y proyectos." },
+              { date: "15 de Setiembre", title: "Inscripciones cerradas", desc: "El proceso de registro finalizó. Los equipos inscritos avanzan a la preparación final." },
               { date: "18 de Setiembre", title: "Entrega de Documentos", desc: "Cada categoría tiene un entregable, revisar contra reglamento." },
               { date: "10 Octubre", title: "Competencia Nacional", desc: "El gran evento presencial en Cedes Don Bosco." },
             ].map((item, i) => (
@@ -498,7 +487,7 @@ export function Landing() {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold mb-4">Preguntas Frecuentes</h2>
             <p className="text-text-muted text-lg">
-              Todo lo que necesitas saber antes de inscribirte al torneo.
+              Información clave para equipos, asesores y visitantes antes de la competencia.
             </p>
           </div>
 
@@ -573,18 +562,20 @@ export function Landing() {
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <h2 className="text-4xl md:text-6xl font-black mb-6">
-            El próximo equipo acreditado podría ser el tuyo.
+            La cuenta regresiva ya comenzó.
           </h2>
           <p className="text-xl text-text-muted mb-10">
-            No dejés pasar la oportunidad de demostrar tu talento. Los cupos son limitados.
+            Pronto viviremos una jornada de robótica, ciencia, tecnología e innovación. Consultá la guía y los reglamentos para llegar listo al evento.
           </p>
-          <Link
-            to="/registro"
+          <a
+            href={`/reglamentos/guia-oficial-participacion.pdf?v=${PDF_VERSION}`}
+            target="_blank"
+            rel="noreferrer"
             className="inline-flex bg-white text-primary hover:bg-gray-100 px-10 py-5 rounded-full font-bold text-xl items-center justify-center gap-3 transition-transform hover:scale-105 shadow-2xl"
           >
-            INSCRIBIR EQUIPO AHORA
-            <ArrowRight className="w-6 h-6" />
-          </Link>
+            Ver guía del participante
+            <Download className="w-6 h-6" />
+          </a>
         </div>
       </section>
     </div>
